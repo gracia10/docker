@@ -58,30 +58,60 @@ https://docs.docker.com/docker-for-windows/install/
  
 2) 도커 계정생성 로그인  
 
-- ""도커 대시보드""  
+- "도커 대시보드"  
   - 컨테이너 조회  
 
 ---
-## 컨테이너 실행  
+## docker 정보
 
-docker run -d -p 80:80 {저장소/이름}  
--d 	      - 백그라운드 실행  
--p 80:80	- 호스트 포트 80을 컨터이네 포트80에 매핑  
-{imgae}	  - 사용할 이미지 이름  
+docker -v           - 한줄 요약 도커 정보  
+docker version      - 자세한 도커 정보
 
 ---
 ## 어플 배포 - 컨테이너 이미지 빌드  
 
-* Dockerfile 	      - 컨테이너 이미지 설정 스크립트  
+Dockerfile 	        - 컨테이너 이미지 설정 스크립트  
 
 docker build 	      - 컨테이너 이미지 빌드 명령어. Dockerfile 읽음  
   -t {저장소/이름}	- 이미지 저장소, 이미지 이름 지정  
-  .		              - docker build 종료 명령어  
+.	  	              - docker build 종료 명령어  
 
+--- 
+## 컨테이너 실행, 조회, 제거 
 
+docker run -d -p 80:80 {저장소/이름}   == -dp   
+-d 	      - 백그라운드 실행  
+-p 80:80	- 호스트 포트 80을 컨터이네 포트80에 매핑  
+{imgae}	  - 사용할 이미지 이름  
 
+docker ps             - 도커 컨테이너 조회
+docker stop {conID}   - 컨테이너 중지
+docker rm {conID}     - 컨테이너 제거 (중지된 상태만 제거가능)
+docker rm -f {conID}  - 컨테이너 즉시 제거  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+---
+[error]  
 
+### error during connect: This error may indicate that the docker daemon is not running.  
+: Post "http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.24/containers/create"  
+: open //./pipe/docker_engine: The system cannot find the file specified.  
+  
+- docker build , run 명령치니 발생
+- 해결 : docker 재실행
 
+### Error response from daemon: driver failed programming external connectivity on endpoint reverent_buck  
+(6221bd9ebe7466d69ca5f3b42670f77fbda2e9fa6f2e680ecc51b54ceaea344c)
+: Bind for 0.0.0.0:3000 failed: port is already allocated.
 
-
+- 해당 포트로 다른 프로세스(컨테이터 포함)가 사용 중
+- 해결 : 이전 컨테이너 제거
 
