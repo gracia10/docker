@@ -13,7 +13,7 @@
 - 프로세스를 필요한 만큼 추가하고 격리함 -> 손실제로  
 - 컨테이너 별 yum , apt-get으로 설치 가능  
 
-```````````````````````````````````````````````````````````````````````
+```
 [이미지]  
 - 컨테이너 실행에 필요한 파일과 설정값이 저장되어있다.  
 - 상태값 없다. 변경되지 않는다.  
@@ -28,8 +28,8 @@
 - 추가, 변경되는 값이 저장된다.  
 
 - 호스트 컴퓨터의 프로세스와 격리된 프로세스  
--
-```````````````````````````````````````````````````````````````````````
+
+```
 
 ## 이미지 저장방식 - 레이어  
 
@@ -88,7 +88,7 @@ docker ps             - 도커 컨테이너 조회
 docker stop {conID}   - 컨테이너 중지
 docker rm {conID}     - 컨테이너 제거 (중지된 상태만 제거가능)
 docker rm -f {conID}  - 컨테이너 즉시 제거  
-  
+---  
   
   
   
@@ -105,13 +105,13 @@ docker rm -f {conID}  - 컨테이너 즉시 제거
 : Post "http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.24/containers/create"  
 : open //./pipe/docker_engine: The system cannot find the file specified.  
   
-- docker build , run 명령치니 발생
-- 해결 : docker 재실행
+- docker build , run 명령치니 발생  
+- 해결 : docker 재실행  
 
 ### Error response from daemon: driver failed programming external connectivity on endpoint reverent_buck  
-(6221bd9ebe7466d69ca5f3b42670f77fbda2e9fa6f2e680ecc51b54ceaea344c)
-: Bind for 0.0.0.0:3000 failed: port is already allocated.
+(6221bd9ebe7466d69ca5f3b42670f77fbda2e9fa6f2e680ecc51b54ceaea344c)  
+: Bind for 0.0.0.0:3000 failed: port is already allocated.  
 
-- 해당 포트로 다른 프로세스(컨테이터 포함)가 사용 중
-- 해결 : 이전 컨테이너 제거
+- 해당 포트로 다른 프로세스(컨테이터 포함)가 사용 중  
+- 해결 : 이전 컨테이너 제거  
 
