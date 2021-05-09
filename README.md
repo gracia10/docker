@@ -26,7 +26,6 @@
 [컨테이너]  
 - 이미지를 실행한 상태.  
 - 추가, 변경되는 값이 저장된다.  
-
 - 호스트 컴퓨터의 프로세스와 격리된 프로세스  
 
 ```
@@ -37,7 +36,8 @@
 * 각 이미지를 레이어로 구성. 합쳐서 하나의 파일시스템으로 사용  
 - 특정 이미지 추가 + 수정시 해당 레이어만 추가 변경하면 됨   
 - 최소한의 용량만 사용  
-
+  
+  
 ## 이미지 관리방식  
 - url 방식으로 관리.   
 - 태그를 붙일 수 있음. (테스트, 롤백 시 용이함)  
@@ -56,62 +56,59 @@ https://docs.docker.com/docker-for-windows/install/
 
 - shell > docker -v 체크  
  
-2) 도커 계정생성 로그인  
-
-- "도커 대시보드"  
-  - 컨테이너 조회  
+2) Docker ID 생성 로그인  
 
 ---
-## docker 정보
+## docker 명령어
 
-docker -v           - 한줄 요약 도커 정보  
-docker version      - 자세한 도커 정보
+docker -v           - 한줄 요약 도커 정보    
+docker version      - 자세한 도커 정보  
+docker image ls     - 도커 이미지 조회  
+
+docker login -u {DockerID}                - Docker Hub 로그인  
+docker tag {image name} {new image name}  - 이미지 새이름으로 복사  
 
 ---
-## 어플 배포 - 컨테이너 이미지 빌드  
+## 어플 배포 - 컨테이너 이미지 생성  
 
 Dockerfile 	        - 컨테이너 이미지 설정 스크립트  
 
-docker build 	      - 컨테이너 이미지 빌드 명령어. Dockerfile 읽음  
-  -t {저장소/이름}	- 이미지 저장소, 이미지 이름 지정  
+docker build 	      - 컨테이너 이미지 생성 명령어. Dockerfile 읽음  
+  -t {image Name}	  - 이미지 저장소, 이미지 이름 지정  
 .	  	              - docker build 종료 명령어  
 
 --- 
 ## 컨테이너 실행, 조회, 제거 
 
-docker run -d -p 80:80 {저장소/이름}   == -dp   
+docker run -d -p 80:80 {imgae}         == -dp   
 -d 	      - 백그라운드 실행  
 -p 80:80	- 호스트 포트 80을 컨터이네 포트80에 매핑  
 {imgae}	  - 사용할 이미지 이름  
 
-docker ps             - 도커 컨테이너 조회
-docker stop {conID}   - 컨테이너 중지
-docker rm {conID}     - 컨테이너 제거 (중지된 상태만 제거가능)
+docker ps             - 실행중인 컨테이너 조회  
+docker stop {conID}   - 컨테이너 중지  
+docker rm {conID}     - 컨테이너 제거 (중지된 상태만 제거가능)  
 docker rm -f {conID}  - 컨테이너 즉시 제거  
+
 ---  
-  
-  
-  
-  
-  
-  
-  
-  
+## 이미지 공유 & push  
+   
+- Docker 이미지는 Docker registry(* Docker Hub) 에서 공유한다   
+- Docker Hub 로그인 -> registry 생성 -> registry 로 image push   
+
+docker push {DockerID}/{registry Name}:tagname   
+'{DockerID}/{registry Name}' 이미지를 찾음  
+:tagname  이미지 이름의 태그 없을 경우 'latest' 호출  
+
+---
+
   
 ---
-[error]  
+> Docker Hub - the world’s largest library and community for container images  
 
-### error during connect: This error may indicate that the docker daemon is not running.  
-: Post "http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.24/containers/create"  
-: open //./pipe/docker_engine: The system cannot find the file specified.  
+> [Docker lab](https://labs.play-with-docker.com/)  
+
+> [Docker error](/Docs/error.md)  
   
-- docker build , run 명령치니 발생  
-- 해결 : docker 재실행  
-
-### Error response from daemon: driver failed programming external connectivity on endpoint reverent_buck  
-(6221bd9ebe7466d69ca5f3b42670f77fbda2e9fa6f2e680ecc51b54ceaea344c)  
-: Bind for 0.0.0.0:3000 failed: port is already allocated.  
-
-- 해당 포트로 다른 프로세스(컨테이터 포함)가 사용 중  
-- 해결 : 이전 컨테이너 제거  
+  
 
