@@ -69,13 +69,13 @@ docker login -u {DockerID}                - Docker Hub 로그인
 docker tag {image name} {new image name}  - 이미지 새이름으로 복사  
 
 ---
-## 어플 배포 - 컨테이너 이미지 생성  
+## 어플 배포 - 컨테이너 이미지 빌드  
 
 Dockerfile 	        - 컨테이너 이미지 설정 스크립트  
 
-docker build 	      - 컨테이너 이미지 생성 명령어. Dockerfile 읽음  
+docker build 	      - 컨테이너 이미지 빌드 명령어. Dockerfile 읽음  
   -t {image Name}	  - 이미지 저장소, 이미지 이름 지정  
-.	  	              - docker build 종료 명령어  
+.	  	              - docker 빌드 종료 명령어  
 
 --- 
 ## 컨테이너 실행, 조회, 제거 
@@ -83,12 +83,14 @@ docker build 	      - 컨테이너 이미지 생성 명령어. Dockerfile 읽음
 docker run -d -p 80:80 {imgae}         == -dp   
 -d 	      - 백그라운드 실행  
 -p 80:80	- 호스트 포트 80을 컨터이네 포트80에 매핑  
-{imgae}	  - 사용할 이미지 이름  
+{imgae}	  - 사용할 이미지 이름
 
 docker ps             - 실행중인 컨테이너 조회  
 docker stop {conID}   - 컨테이너 중지  
 docker rm {conID}     - 컨테이너 제거 (중지된 상태만 제거가능)  
 docker rm -f {conID}  - 컨테이너 즉시 제거  
+
+docker exec {conID} ls - 실행 컨테이너 커맨드로 접근
 
 ---  
 ## 이미지 공유 & push  
@@ -101,6 +103,31 @@ docker push {DockerID}/{registry Name}:tagname
 :tagname  이미지 이름의 태그 없을 경우 'latest' 호출  
 
 ---
+## DB 유지 - Volums
+
+- 각 컨테이너는 파일을 생성/수정/삭제 할 수 있는 'scratch space' 를 갖는다.
+- 같은 이미지를 사용해도 다른 컨테이너의 파일에 접근할 수 없다.
+```
+docker run -d ubuntu {bash -c "shuf -i 1-10000 -n 1 -o /data.txt && tail -f /dev/null"}
+docker exec {conID} cat /data.txt
+docker run -it ubuntu ls /
+```
+
+Volums  
+- 컨테이너별 파일시스템 path를 host machine 에 연결시킨다.
+- 볼륨 생성 후 데이터가 저장된 디렉토리를 연결(마운트)하면 캡쳐/데이터가 유지된다.
+- Docker 엔진이 지원하는 주요 볼륨 유형 named volumes , bind mounts
+
+```
+1) named volumes
+
+docker volume create {volName}              - 볼륨생성
+docker run -v {volName:/etc/todos} {image}  - 볼륨을 연결해 컨테이너 실행
+docker volume inspect {volName}             - 데이터의 실 저장 정보 조회 (Mountpoint)
+
+2) bind mounts
+```
+
 
   
 ---
@@ -110,5 +137,4 @@ docker push {DockerID}/{registry Name}:tagname
 
 > [Docker error](/Docs/error.md)  
   
-  
-
+> SQLite Database - relational database in which all of the data is stored in a single file.
