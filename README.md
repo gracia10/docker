@@ -65,8 +65,9 @@ docker -v           - 한줄 요약 도커 정보
 docker version      - 자세한 도커 정보  
 docker image ls     - 도커 이미지 조회  
 
-docker login -u {DockerID}                - Docker Hub 로그인  
-docker tag {image name} {new image name}  - 이미지 새이름으로 복사  
+docker logs -f {conID}                   - 컨테이너 로그 조회
+docker login -u {DockerID}               - Docker Hub 로그인  
+docker tag {image name} {new image name} - 이미지 새이름으로 복사  
 
 ---
 ## 어플 배포 - 컨테이너 이미지 빌드  
@@ -90,8 +91,6 @@ docker stop {conID}   - 컨테이너 중지
 docker rm {conID}     - 컨테이너 제거 (중지된 상태만 제거가능)  
 docker rm -f {conID}  - 컨테이너 즉시 제거  
 
-docker exec {conID} ls - 실행 컨테이너 커맨드로 접근
-
 ---  
 ## 이미지 공유 & push  
    
@@ -103,21 +102,27 @@ docker push {DockerID}/{registry Name}:tagname
 :tagname  이미지 이름의 태그 없을 경우 'latest' 호출  
 
 ---
-## DB 유지 - Volums
+## 컨테이너 파일시스템 - Volums
 
-- 각 컨테이너는 파일을 생성/수정/삭제 할 수 있는 'scratch space' 를 갖는다.
-- 같은 이미지를 사용해도 다른 컨테이너의 파일에 접근할 수 없다.
+- 각 컨테이너는 파일을 생성/수정/삭제 하는 'scratch space' 를 갖는다.  
+- 컨테이너 생성시 스크래치 공간이 할당되고, 삭제시 스크래치는 제거된다.
+- 각 컨테이너의 스크래치는 호스트로 이스케이프 되지 않는다.
+- 동일한 이미지를 사용해도 다른 컨테이너에서 확인할 수 없다.
+ 
 ```
-docker run -d ubuntu {bash -c "shuf -i 1-10000 -n 1 -o /data.txt && tail -f /dev/null"}
-docker exec {conID} cat /data.txt
-docker run -it ubuntu ls /
+docker run -d ubuntu `
+ bash -c "shuf -i 1-10000 -n 1 -o /data.txt && tail -f /dev/null" `
+
+docker exec {conID} cat /data.txt       - 실행 컨테이너 커맨드로 접근
+docker run -it ubuntu ls `
 ```
 
 Volums  
 - 컨테이너별 파일시스템 path를 host machine 에 연결시킨다.
 - 볼륨 생성 후 데이터가 저장된 디렉토리를 연결(마운트)하면 캡쳐/데이터가 유지된다.
-- Docker 엔진이 지원하는 주요 볼륨 유형 named volumes , bind mounts
-
+- Docker 엔진이 지원하는 주요 볼륨 유형
+  - named volumes
+  - bind mounts - 로컬 개발 설정에 사용. 
 ```
 1) named volumes
 
@@ -125,16 +130,24 @@ docker volume create {volName}              - 볼륨생성
 docker run -v {volName:/etc/todos} {image}  - 볼륨을 연결해 컨테이너 실행
 docker volume inspect {volName}             - 데이터의 실 저장 정보 조회 (Mountpoint)
 
-2) bind mounts
+2) bind mounts 
+
+docker run -dp 3000:3000 `          
+     -w /app `                     - 'working directory' or 명령이 실행될 현재 디렉토리 설정
+     -v "$(pwd):/app" `            - 컨테이너의 host에서 현재 디렉토리 마운트
+     node:12-alpine `              - 사용할 이미지
+     sh -c "yarn install && yarn run dev"   - sh 로 셸 스크립트 실행
 ```
 
 
   
 ---
 > Docker Hub - the world’s largest library and community for container images  
+  
+> SQLite Database - relational database in which all of the data is stored in a single file.
+
+> Scratch space - 임시 데이터 저장 목적 HDD or SSD 공간
 
 > [Docker lab](https://labs.play-with-docker.com/)  
 
 > [Docker error](/Docs/error.md)  
-  
-> SQLite Database - relational database in which all of the data is stored in a single file.
