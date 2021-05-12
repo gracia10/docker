@@ -67,7 +67,6 @@ docker image ls     - 도커 이미지 조회
 
 docker logs -f {conID}                   - 컨테이너 로그 조회
 docker login -u {DockerID}               - Docker Hub 로그인  
-docker tag {image name} {new image name} - 이미지 새이름으로 복사  
 
 ---
 ## 어플 배포 - 컨테이너 이미지 빌드  
@@ -97,12 +96,14 @@ docker rm -f {conID}  - 컨테이너 즉시 제거
 - Docker 이미지는 Docker registry(* Docker Hub) 에서 공유한다   
 - Docker Hub 로그인 -> registry 생성 -> registry 로 image push   
 
-docker push {DockerID}/{registry Name}:tagname   
-'{DockerID}/{registry Name}' 이미지를 찾음  
-:tagname  이미지 이름의 태그 없을 경우 'latest' 호출  
+
+docker tag {image} {DockerID/repository:tag} - 이미지 새이름으로 복사  
+
+docker push {DockerID/repository:tag}   
+ DockerID/repository:tag  - 이미지를 찾음 (태그 없을 경우 'latest')  
 
 ---
-## 컨테이너 파일시스템 - Volums
+## 컨테이너 파일시스템
 
 - 각 컨테이너는 파일을 생성/수정/삭제 하는 'scratch space' 를 갖는다.  
 - 컨테이너 생성시 스크래치 공간이 할당되고, 삭제시 스크래치는 제거된다.
@@ -110,15 +111,18 @@ docker push {DockerID}/{registry Name}:tagname
 - 동일한 이미지를 사용해도 다른 컨테이너에서 확인할 수 없다.
  
 ```
-docker run -d ubuntu `
+docker run -d {ubuntu} `
  bash -c "shuf -i 1-10000 -n 1 -o /data.txt && tail -f /dev/null" `
 
 docker exec {conID} cat /data.txt       - 실행 컨테이너 커맨드로 접근
-docker run -it ubuntu ls `
+docker run -it {ubuntu} ls `
 ```
 
+---
+## 컨테이너간 리소스 공유 - Volums  
+
 Volums  
-- 컨테이너별 파일시스템 path를 host machine 에 연결시킨다.
+- 컨테이너별 파일시스템 path 를 호스트에 연결한다.
 - 볼륨 생성 후 데이터가 저장된 디렉토리를 연결(마운트)하면 캡쳐/데이터가 유지된다.
 - Docker 엔진이 지원하는 주요 볼륨 유형
   - named volumes
@@ -147,6 +151,8 @@ docker run -dp 3000:3000 `
 > SQLite Database - relational database in which all of the data is stored in a single file.
 
 > Scratch space - 임시 데이터 저장 목적 HDD or SSD 공간
+
+> Container escape - 컨테이너 접근 권한이 있는 공격자가 컨테이너에서 탈출해 호스트로 접근 
 
 > [Docker lab](https://labs.play-with-docker.com/)  
 
