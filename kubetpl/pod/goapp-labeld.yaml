@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goapp-pod-memhigh
+spec:
+  nodeSelector:
+    memsize: "high"
+  containers:
+  - image: dangtong76/goapp
+    name: goapp-container-memhigh
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
