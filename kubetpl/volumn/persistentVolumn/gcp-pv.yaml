@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongodb-pv
+spec:                   # 볼륨 스펙
+  capacity:
+    storage: 1Gi        # 1기가 써라
+  accessModes:
+    - ReadWriteOnce     # 한개의 pod만 읽기 쓰기 가능
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain   # 볼륨 삭제 말고 유지
+  gcePersistentDisk:
+    pdName: mongdb
+    fsType: exit4

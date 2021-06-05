@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: nodeapp-container
-        image: dangtong/nodeapp
+        image: gracia10/nodeapp
         ports:
         - containerPort: 8080

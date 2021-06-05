@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-configvol
+spec:
+  containers:
+  - image: nginx:1.7.9
+    name: web-server
+    volumeMounts:
+    - name: config
+      mountPath: /etc/nginx/conf.d/default.conf
+      subPath: custom-nginx.conf # configmap 의  key 값하고 동일하게 
+      readOnly: true
+    ports:
+    - containerPort: 80
+      protocol: TCP
+  volumes:
+  - name: config
+    configMap:
+      name: frotune-configvol
+      defaultMode: 0660

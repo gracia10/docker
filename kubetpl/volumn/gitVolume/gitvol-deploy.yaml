@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitvol-deploy
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: web-server
+        image: nginx:alpine
+        volumeMounts:
+          - name: html
+            mountPath: /usr/share/nginx/html
+            readOnly: true
+        ports:
+        - containerPort: 80
+          protocol: TCP
+      volumes:
+        - name: html
+          gitRepo:
+            repository: https://github.com/gracia10/k8sweb.git
+            revision: master
+            directory: .

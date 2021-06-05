@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune5s
+spec:
+  containers:
+  - image: dangtong76/fortune:interval
+    args: ["5"]
+    name: html-generator
+    volumeMounts:
+    - name: html
+      mountPath: /var/htdocs
+  - image: nginx:alpine
+    name: web-server
+    volumeMounts:
+    - name: html 
+      mountPath: /user/share/nginx/html
+      readOnly: true
+    ports:
+    - containerPort: 80
+      protocol: TCP
+  volumes:
+  - name: html
+    emptyDir: {}
+

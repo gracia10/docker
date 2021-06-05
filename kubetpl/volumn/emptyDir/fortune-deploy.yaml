@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fortune-deployment
+  labels:
+    app: fortune
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fortune
+  template:
+    metadata:
+      labels:
+        app: fortune
+    spec:
+      containers:
+      - name: html-generator
+        image: gracia10/fortuneloop
+        volumeMounts:               # 컨테이너 레이어를 볼륨으로 마운트하는 것!
+          - name: html
+            mountPath: /var/htdocs
+      - name: web-server
+        image: nginx:alpine
+        volumeMounts:
+          - name: html
+            mountPath: /usr/share/nginx/html
+            readOnly: true
+        ports:
+        - containerPort: 80
+          protocol: TCP
+      volumes:
+      - name: html
+        emptyDir: {}              # 기본 디스크, 메모리 할당도 가능
