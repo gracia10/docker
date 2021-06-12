@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nslookup-pod
+spec:
+  containers:
+  - image: dangtong76/nslookup
+    name: nslookup-container
+
+# kubectl exec -it nslookup-pod -- nslookup wordpress-mysql

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: word-deploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: word-pod
+  template:
+    metadata:
+      labels:
+        app: word-pod
+    spec:
+      containers:
+      - name: wrodpress-container
+        image: wrodpress:4.8-apache
+        ports:
+          - containerPort: 80
+            protocol: TCP

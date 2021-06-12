@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-sfs-lb
+spec:
+  type: LoadBalancer
+  selector:               # 라우팅 대상
+    app: nodejs-sfs
+  ports:
+  - port: 80
+    targetPort: 8080
