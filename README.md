@@ -59,30 +59,39 @@ https://docs.docker.com/docker-for-windows/install/
 <!> WSL 2 installation is imcomplete  - 커널 업데이트가 안되어 발생함 업데이트 하고 리스타트.
 
 ---
-## docker 명령어
+## docker 명령어  
 
-docker -v                   - 한줄 요약 도커 정보    
-docker version              - 자세한 도커 정보  
+docker -v                   - 한줄 요약 도커 정보     
+docker version              - 자세한 도커 정보    
 
-docker logs -f {conID}      - 컨테이너 로그 조회
-docker login                - Docker Hub 로그인
-docker search {imgae}       - Hub 이미지 조회
-docker pull {image:version} - Hub 이미지 다운
+docker login                - Docker Hub 로그인  
+docker search {imgae}       - Hub 이미지 조회  
+docker pull {image:version} - Hub 이미지 다운  
 
-docker images               - 도커 이미지 조회 (image list , image ls)  
-docker build -t {name} .    - 이미지 빌드. Dockerfile 읽음. 어플배포
-docker rmi {image}          - 이미지 제거 (docker image rm) untaged vs deleted
+docker images               - 도커 이미지 조회 (image list , image ls)    
+docker build -t {name} .    - 이미지 빌드. Dockerfile 읽음. 어플배포  
+docker rmi {image}          - 이미지 제거 (docker image rm) untaged vs deleted  
 
-docker ps -a                - 컨테이너 조회 
-docker ps                   - 실행중인 컨테이너 조회
-docker run --name {name} 
- -p 80:80 
- -d {image}                 - 컨테이너 생성
-docker stop {name}          - 컨테이너 중단. state layer 유지 (디스크,메모리에 저장된 파일)
-docker rm {name}            - 칸테이너 삭제. state layer 제거
+docker logs -f {conID}      - 컨테이너 로그 조회  
+docker ps -a                - 컨테이너 조회   
+docker ps                   - 실행중인 컨테이너 조회  
 
-docker tag {image} {id/name:tag}  - 도커 허브에 올리기 위해 태그로 변경
-docker push {id/name:tag}         - 도커 허브에 등록 (tag 기본값 *latest)
+docker run                  - 컨테이너 실행
+ --name {name}              - 컨테이너 네임 지정. container ID 대신 쉽게 접근  
+ -p 80:80   
+ -it                        - 컨테이너를 종료하지 않은체 컨테이너 쉘 접근. exit시 나가기. ctrl+p , ctrl+
+ -d                         - 백그라운드  
+{image}                       
+
+docker rename {old} {new}   - 컨테이너 이름 변경
+docker start {name}         - 컨테이너 실행. state up 
+docker attach {name}        - 실행중인 컨테이너의 쉘 접속 
+docker restart {name}       - 컨테이너 재실행
+docker stop {name}          - 컨테이너 중단. state exited. state layer 유지 (디스크,메모리에 저장된 파일)
+docker rm {name}            - 칸테이너 삭제. state layer 제거  
+
+docker tag {image} {id/name:tag}  - 도커 허브에 올리기 위해 태그로 변경  
+docker push {id/name:tag}         - 도커 허브에 등록 (tag 기본값 *latest)  
 
 --- 
 ## 컨테이너 실행, 조회, 제거 
