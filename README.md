@@ -56,6 +56,8 @@ https://docs.docker.com/docker-for-windows/install/
  
 2) Docker ID 생성 로그인  
 
+<!> WSL 2 installation is imcomplete  - 커널 업데이트가 안되어 발생함 업데이트 하고 리스타트.
+
 ---
 ## docker 명령어
 
