@@ -69,6 +69,7 @@ docker search {imgae}       - Hub 이미지 조회
 docker pull {image:version} - Hub 이미지 다운  
 
 docker images               - 도커 이미지 조회 (image list , image ls)    
+docker image tag {old} {new}- 이미지 이름 변경   
 docker build -t {name} .    - 이미지 빌드. Dockerfile 읽음. 어플배포  
 docker rmi {image}          - 이미지 제거 (docker image rm) untaged vs deleted  
 
@@ -92,6 +93,9 @@ docker rm {name}            - 칸테이너 삭제. state layer 제거
 
 docker tag {image} {id/name:tag}  - 도커 허브에 올리기 위해 태그로 변경  
 docker push {id/name:tag}         - 도커 허브에 등록 (tag 기본값 *latest)  
+
+
+docker network create {name}      - 도커 네트워크. 컨테이너 끼리 통신하기 위한 논리적 네트워크 
 
 --- 
 ## 컨테이너 실행, 조회, 제거 
